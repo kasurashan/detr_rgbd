@@ -1,0 +1,13 @@
+CUDA_VISIBLE_DEVICES=2,3 python -m torch.distributed.launch \
+--nproc_per_node=1 \
+--use_env main_measure.py \
+--epochs 1 \
+--masks \
+--batch_size 1 \
+--coco_path ../../datasets/nyuv2  \
+--depth_data nyu \
+--head_feature 'DrSf' \
+--resume ./detr-r50-panoptic-00ce5173.pth \
+--throughput \
+--fps \
+--output_dir ./output/measure
