@@ -8,4 +8,5 @@ CUDA_VISIBLE_DEVICES=2,3 python -m torch.distributed.launch \
 --resume ./detr-r50-panoptic-00ce5173.pth \
 --output_dir ./output/test \
 --head_feature 'DrSf' \
+--copy_backbone True \
 --depth_data nyu
