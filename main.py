@@ -96,6 +96,7 @@ def get_args_parser():
     parser.add_argument('--seed', default=42, type=int)
     parser.add_argument('--resume', default='', help='resume from checkpoint')
     parser.add_argument('--resume_reset', default=False)  ###################################resume할 때 nyu로 학습한 것을 가져오면 epoch50부터, lr스케줄도 그때부터 시작함, 그래서 이걸 초기화해줌
+    parser.add_argument('--copy_backbone', default=False)   ############### 처음에 학습시에 RGB branch의 weight를  depth branch 에 복사하기 위해 
 
 
 
@@ -256,18 +257,19 @@ def main(args):
 
 
 
-        if not args.eval:   ##################################처음부터 학습할때  비어있는 depth쪽에 copy해서 넣어줌
-            #print(checkpoint['model'])  # ordered dict
-            weight_copy = copy.deepcopy(checkpoint['model'])
-            #for k, v in checkpoint['model'].items():
-            for k,v in weight_copy.items():
-                #print(k) # 이름 detr.backbone.0.body.layer3.5.bn3.running_var
-                #print(v) # 실제 텐서
-                if k[5:13] == 'backbone':
-                    
-                    new_key = 'detr.backbone.0.body_d' + k[20:]
-                    new_value = v
-                    checkpoint['model'].update({new_key : new_value})
+        if not args.eval:   ##################################
+            if copy_backbone:   ######################################## 처음부터 학습할때  비어있는 depth쪽에 copy해서 넣어줌 (이미 rgb-d로 학습된 weight면 굳이 복사 안해줘도 될듯)
+                #print(checkpoint['model'])  # ordered dict
+                weight_copy = copy.deepcopy(checkpoint['model'])
+                #for k, v in checkpoint['model'].items():
+                for k,v in weight_copy.items():
+                    #print(k) # 이름 detr.backbone.0.body.layer3.5.bn3.running_var
+                    #print(v) # 실제 텐서
+                    if k[5:13] == 'backbone':
+                        
+                        new_key = 'detr.backbone.0.body_d' + k[20:]
+                        new_value = v
+                        checkpoint['model'].update({new_key : new_value})
 
         #for k, v in checkpoint['model'].items():
             #print(k) # 이름 detr.backbone.0.body.layer3.5.bn3.running_var
