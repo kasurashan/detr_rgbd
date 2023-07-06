@@ -258,7 +258,7 @@ def main(args):
 
 
         if not args.eval:   ##################################
-            if copy_backbone:   ######################################## 처음부터 학습할때  비어있는 depth쪽에 copy해서 넣어줌 (이미 rgb-d로 학습된 weight면 굳이 복사 안해줘도 될듯)
+            if args.copy_backbone:   ######################################## 처음부터 학습할때  비어있는 depth쪽에 copy해서 넣어줌 (이미 rgb-d로 학습된 weight면 굳이 복사 안해줘도 될듯)
                 #print(checkpoint['model'])  # ordered dict
                 weight_copy = copy.deepcopy(checkpoint['model'])
                 #for k, v in checkpoint['model'].items():
