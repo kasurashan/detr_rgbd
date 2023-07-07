@@ -1,1 +1,1 @@
-# detr_rgbd
+# rgbd
