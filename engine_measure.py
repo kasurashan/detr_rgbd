@@ -42,7 +42,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
     # # memory study
     gpu_tracker = MemTracker()         # define a GPU tracker
     gpu_tracker.track()  # run function between the code line where uses GPU
-    inputs = torch.randn(2, 3, 256, 256).cuda()
+    inputs = torch.randn(2, 4, 256, 256).cuda()
     outputs = model(inputs)
     gpu_tracker.track()
     gpu_tracker.clear_cache()
