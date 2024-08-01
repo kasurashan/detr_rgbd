@@ -27,7 +27,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
     logging.info(f"number of params: {str(num_params / 1000 ** 2) + 'M'}")
 
     from thop import profile
-    input = torch.randn(2, 3, 256, 256).cuda()
+    input = torch.randn(2, 4, 256, 256).cuda()
     input_ = {input}
     #print((*input_,))
     macs, _ = profile(model, inputs=(*input_,), verbose=False)
